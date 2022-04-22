@@ -1,7 +1,6 @@
 package ru.netology.patient.service.medical;
 
 import java.math.BigDecimal;
-
 import ru.netology.patient.entity.BloodPressure;
 import ru.netology.patient.entity.PatientInfo;
 import ru.netology.patient.repository.PatientInfoRepository;
@@ -29,8 +28,8 @@ public class MedicalServiceImpl implements MedicalService {
     @Override
     public void checkTemperature(String patientId, BigDecimal temperature) {
         PatientInfo patientInfo = getPatientInfo(patientId);
-        if (patientInfo.getHealthInfo().getNormalTemperature().subtract(new BigDecimal("1.5")).compareTo(temperature) > 0) {
-            String message = String.format("Warning, patient with id: %s, need help", patientInfo.getId());System.out.printf("Warning, patient with id: %s, need help", patientInfo.getId());
+        if (patientInfo.getHealthInfo().getNormalTemperature().subtract(temperature).abs().compareTo(new BigDecimal("1.5")) > 0) {
+            String message = String.format("Warning, patient with id: %s, need help", patientInfo.getId());
             alertService.send(message);
         }
     }
